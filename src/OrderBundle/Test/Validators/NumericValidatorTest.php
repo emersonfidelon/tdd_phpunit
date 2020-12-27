@@ -23,8 +23,8 @@ class NumericValidatorTest extends TestCase
         return [
             'shouldBeValidWhenValueNotIsNumber' => ['value' => 30, 'expectedResult' => true],
             'shouldBeValidWhenValueIsNumericString' => ['value' => '20', 'expectedResult' => true],
-            'shouldBeNotValidWhenValueIsNotANumber' => ['value' => 'bla', 'expectedResult' => false],
-            'shouldBeNotValidWhenValueIsEmpty' => ['value' => '', 'expectedResult' => false],
+            'shouldNotBeValidWhenValueIsNotANumber' => ['value' => 'bla', 'expectedResult' => false],
+            'shouldNotBeValidWhenValueIsEmpty' => ['value' => '', 'expectedResult' => false],
         ];
     }
 }
