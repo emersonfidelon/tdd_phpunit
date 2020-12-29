@@ -17,37 +17,16 @@ class FidelityProgramServiceTest extends TestCase
     public function shouldSaveWhenReceivePoints()
     {
         $pointsRepository = $this->createMock(PointsRepository::class);
-        $pointsRepository->expects($this->once())
-            ->method('save');
+
+        $pointsRepository->expects($this->once())->method('save');
 
         $pointsCalculator = $this->createMock(PointsCalculator::class);
-        $pointsCalculator->method('calculatePointsToReceive')
-            ->willReturn(100);
+        $pointsCalculator->method('calculatePointsToReceive')->willReturn(100);
 
-        $allMessages = [];
-        $logger = $this->createMock(LoggerInterface::class);
-        $logger->method('log')
-            ->will($this->returnCallback(
-                function ($message) use (&$allMessages) {
-                    $allMessages[] = $message;
-                }
-            ));
-
-        $fidelityProgramService = new FidelityProgramService(
-            $pointsRepository,
-            $pointsCalculator,
-            $logger
-        );
-
+        $fidelityProgramService = new FidelityProgramService($pointsRepository, $pointsCalculator);
         $customer = $this->createMock(Customer::class);
         $value = 50;
         $fidelityProgramService->addPoints($customer, $value);
-
-        $expectedMessages = [
-            'Checking points for customer',
-            'Customer received points'
-        ];
-        $this->assertEquals($expectedMessages, $allMessages);
     }
 
     /**
@@ -63,12 +42,9 @@ class FidelityProgramServiceTest extends TestCase
         $pointsCalculator->method('calculatePointsToReceive')
             ->willReturn(0);
 
-        $logger = $this->createMock(LoggerInterface::class);
-
         $fidelityProgramService = new FidelityProgramService(
             $pointsRepository,
-            $pointsCalculator,
-            $logger
+            $pointsCalculator
         );
 
         $customer = $this->createMock(Customer::class);
